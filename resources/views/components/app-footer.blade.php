@@ -5,9 +5,9 @@
                 <div
                     class="flex w-full justify-center space-x-12 text-gray-600 dark:text-gray-300 sm:w-7/12 md:justify-start">
                     <ul class="list-inside list-disc space-y-8">
-                        <li><a href="#" class="transition hover:text-primary">Home</a></li>
-                        <li><a href="#" class="transition hover:text-primary">About</a></li>
-                        <li><a href="#" class="transition hover:text-primary">Guide</a></li>
+                        <li><a href="{{ route('dashboard') }}" class="transition hover:text-primary">Home</a></li>
+                        <li><a href="{{ route('about') }}" class="transition hover:text-primary">About</a></li>
+                        <li><a href="{{ route('guide') }}" class="transition hover:text-primary">Guide</a></li>
                         <!-- <li><a href="#" class="transition hover:text-primary">Contact</a></li> -->
                         <!-- <li><a href="#" class="transition hover:text-primary">Terms of Use</a></li> -->
                     </ul>
