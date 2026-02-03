@@ -1,0 +1,10 @@
+@import "tailwindcss";
+
+@theme {
+    --color-primary: var(--color-indigo-600);
+    --color-secondary: var(--color-orange-600);
+    --color-info: var(--color-blue-600);
+
+    /* Add Urbanist font family if needed here or keep in proper layout */
+    --font-sans: "Urbanist", sans-serif;
+}
