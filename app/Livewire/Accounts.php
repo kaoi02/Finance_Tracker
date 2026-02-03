@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use App\Models\Account;
+use Exception;
 
 class Accounts extends Component
 {
@@ -39,21 +40,29 @@ class Accounts extends Component
             'balance' => 'numeric',
         ]);
 
-        Account::create([
-            'user_id' => 1, // Hardcoded for MVP
-            'name' => $this->name,
-            'type' => $this->type,
-            'balance' => $this->balance,
-            'currency_code' => $this->currency_code,
-        ]);
+        try {
+            Account::create([
+                'user_id' => 1, // Hardcoded for MVP
+                'name' => $this->name,
+                'type' => $this->type,
+                'balance' => $this->balance,
+                'currency_code' => $this->currency_code,
+            ]);
 
-        $this->reset(['name', 'type', 'balance']);
-        $this->dispatch('toast', message: 'Account created successfully!', type: 'success');
+            $this->reset(['name', 'type', 'balance']);
+            $this->dispatch('toast', message: 'Account created successfully!', type: 'success');
+        } catch (Exception $e) {
+            $this->dispatch('toast', message: 'Failed to create account.', type: 'error');
+        }
     }
 
     public function delete($id)
     {
-        Account::find($id)->delete();
-        $this->dispatch('toast', message: 'Account deleted.', type: 'info');
+        try {
+            Account::findOrFail($id)->delete();
+            $this->dispatch('toast', message: 'Account deleted.', type: 'info');
+        } catch (Exception $e) {
+            $this->dispatch('toast', message: 'Failed to delete account.', type: 'error');
+        }
     }
 }

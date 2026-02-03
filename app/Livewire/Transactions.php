@@ -6,6 +6,8 @@ use Livewire\Component;
 use App\Models\Transaction;
 use App\Models\Account;
 use App\Models\Category;
+use Illuminate\Support\Facades\DB;
+use Exception;
 
 class Transactions extends Component
 {
@@ -110,44 +112,57 @@ class Transactions extends Component
             'date' => 'required|date',
         ]);
 
-        $category = Category::find($this->category_id);
+        try {
+            DB::transaction(function () {
+                $category = Category::findOrFail($this->category_id);
+                $account = Account::findOrFail($this->account_id);
 
-        // Income adds to balance, Expense subtracts
-        $adjustedAmount = $this->amount;
-        if ($category->type === 'expense') {
-            $adjustedAmount = -abs($this->amount);
-        } else {
-            $adjustedAmount = abs($this->amount);
+                // Income adds to balance, Expense subtracts
+                $adjustedAmount = $this->amount;
+                if ($category->type === 'expense') {
+                    $adjustedAmount = -abs($this->amount);
+                } else {
+                    $adjustedAmount = abs($this->amount);
+                }
+
+                // Double-entry lite: Update account balance
+                $account->balance += $adjustedAmount;
+                $account->save();
+
+                Transaction::create([
+                    'account_id' => $this->account_id,
+                    'category_id' => $this->category_id,
+                    'amount' => $adjustedAmount,
+                    'description' => $this->description,
+                    'date' => $this->date,
+                ]);
+            });
+
+            $this->reset(['account_id', 'category_id', 'amount', 'description', 'date']);
+            $this->date = now()->format('Y-m-d');
+            $this->dispatch('toast', message: 'Transaction recorded!', type: 'success');
+        } catch (Exception $e) {
+            $this->dispatch('toast', message: 'Failed to record transaction. Please try again.', type: 'error');
         }
-
-        // Double-entry lite: Update account balance
-        $account = Account::find($this->account_id);
-        $account->balance += $adjustedAmount;
-        $account->save();
-
-        Transaction::create([
-            'account_id' => $this->account_id,
-            'category_id' => $this->category_id,
-            'amount' => $adjustedAmount, // Store the signed amount or absolute? User said "amount". Signed is easier for sum.
-            'description' => $this->description,
-            'date' => $this->date,
-        ]);
-
-        $this->reset(['account_id', 'category_id', 'amount', 'description', 'date']);
-        $this->date = now()->format('Y-m-d');
-        $this->dispatch('toast', message: 'Transaction recorded!', type: 'success');
     }
 
     public function delete($id)
     {
-        $transaction = Transaction::find($id);
+        try {
+            DB::transaction(function () use ($id) {
+                $transaction = Transaction::findOrFail($id);
+                $account = $transaction->account;
 
-        // Reverse balance update
-        $account = $transaction->account;
-        $account->balance -= $transaction->amount;
-        $account->save();
+                // Reverse balance update
+                $account->balance -= $transaction->amount;
+                $account->save();
 
-        $transaction->delete();
-        $this->dispatch('toast', message: 'Transaction deleted.', type: 'info');
+                $transaction->delete();
+            });
+
+            $this->dispatch('toast', message: 'Transaction deleted.', type: 'info');
+        } catch (Exception $e) {
+            $this->dispatch('toast', message: 'Failed to delete transaction.', type: 'error');
+        }
     }
 }
