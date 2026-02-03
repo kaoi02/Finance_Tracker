@@ -48,6 +48,134 @@
                 </div>
             </div>
 
+            <!-- Insights Section -->
+            <div class="mt-20 grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+                <!-- Spending Breakdown Chart -->
+                <div class="group relative bg-white dark:bg-gray-800 transition hover:z-[1] hover:shadow-2xl hover:shadow-gray-600/10 rounded-3xl border border-gray-100 dark:border-gray-700 p-8"
+                     x-init="
+                        new ApexCharts($refs.chart, {
+                            series: {{ json_encode($spendingByCategory->pluck('total')->map(fn($v) => (float)$v)) }},
+                            labels: {{ json_encode($spendingByCategory->pluck('name')) }},
+                            chart: {
+                                type: 'donut',
+                                height: 350,
+                                fontFamily: 'Urbanist, sans-serif',
+                                foreColor: document.documentElement.classList.contains('dark') ? '#9ca3af' : '#4b5563',
+                                toolbar: { show: false }
+                            },
+                            plotOptions: {
+                                pie: {
+                                    donut: {
+                                        size: '70%',
+                                        labels: {
+                                            show: true,
+                                            value: {
+                                                show: true,
+                                                formatter: (val) => 'RM ' + parseFloat(val).toLocaleString(undefined, {minimumFractionDigits: 2})
+                                            },
+                                            total: {
+                                                show: true,
+                                                label: 'Total Spend',
+                                                fontSize: '14px',
+                                                fontWeight: 600,
+                                                formatter: (w) => 'RM ' + w.globals.seriesTotals.reduce((a, b) => a + b, 0).toLocaleString(undefined, {minimumFractionDigits: 2})
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            stroke: { show: false },
+                            dataLabels: {
+                                enabled: true,
+                                formatter: (val, opt) => opt.w.globals.labels[opt.seriesIndex] + ': ' + val.toFixed(1) + '%'
+                            },
+                            tooltip: {
+                                y: {
+                                    formatter: (val) => 'RM ' + val.toLocaleString(undefined, {minimumFractionDigits: 2})
+                                }
+                            },
+                            legend: { position: 'bottom' },
+                            theme: {
+                                monochrome: {
+                                    enabled: true,
+                                    color: '#4f46e5',
+                                    shadeTo: 'light',
+                                    shadeIntensity: 0.65
+                                }
+                            },
+                            responsive: [{
+                                breakpoint: 480,
+                                options: { chart: { width: 300 }, legend: { position: 'bottom' } }
+                            }]
+                        }).render();
+                     ">
+                    <h2 class=" text-xl font-bold text-gray-900 dark:text-white mb-6">Spending Breakdown</h2>
+                    <div x-ref="chart"></div>
+                </div>
+
+                <!-- Account Summary / Tip -->
+                <div
+                  class="group relative bg-white dark:bg-gray-800 transition hover:z-[1] hover:shadow-2xl hover:shadow-gray-600/10 rounded-3xl border border-gray-100 dark:border-gray-700 p-8 h-full flex flex-col justify-center text-center">
+                    <div class="lg:w-2/3 mx-auto">
+                        @php
+                            $savings = $monthlyIncome - $monthlyExpenses;
+                            $savingsRate = $monthlyIncome > 0 ? ($savings / $monthlyIncome) * 100 : 0;
+                            $topCategory = $spendingByCategory->sortByDesc('total')->first();
+                        @endphp
+
+                        @if($monthlyIncome == 0 && $monthlyExpenses == 0)
+                            <!-- Case 1: No Data -->
+                            <div class="h-16 w-16 mx-auto mb-6 flex items-center justify-center rounded-full bg-blue-50 dark:bg-blue-900/20 text-blue-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                </svg>
+                            </div>
+                            <h3 class="text-2xl font-bold text-gray-900 dark:text-white">Start Your Journey</h3>
+                            <p class="mt-4 text-gray-600 dark:text-gray-400">
+                                Record your first transaction to see your financial health reimagined.
+                            </p>
+                        @elseif($monthlyExpenses > $monthlyIncome && $monthlyIncome > 0)
+                            <!-- Case 2: Overspent -->
+                            <div class="h-16 w-16 mx-auto mb-6 flex items-center justify-center rounded-full bg-red-50 dark:bg-red-900/20 text-red-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+                                </svg>
+                            </div>
+                            <h3 class="text-2xl font-bold text-gray-900 dark:text-white">Budget Alert</h3>
+                            <p class="mt-4 text-gray-600 dark:text-gray-400">
+                                Your spending (RM {{ number_format($monthlyExpenses, 2) }}) has exceeded your income this month. Consider reviewing your <span class="text-primary font-bold">{{ $topCategory?->name }}</span> expenses.
+                            </p>
+                        @elseif($savingsRate >= 20)
+                            <!-- Case 3: High Savings Rate -->
+                            <div class="h-16 w-16 mx-auto mb-6 flex items-center justify-center rounded-full bg-green-50 dark:bg-green-900/20 text-green-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125V18.75m-1.125 1.125h-4.461m2.81-9.983L9.166 15.084m0 0l-1.125-1.125m1.125 1.125l1.125 1.125" />
+                                </svg>
+                            </div>
+                            <h3 class="text-2xl font-bold text-gray-900 dark:text-white">Savings Hero</h3>
+                            <p class="mt-4 text-gray-600 dark:text-gray-400">
+                                Amazing! You've saved <span class="text-green-600 font-bold">{{ number_format($savingsRate, 0) }}%</span> of your income this month. Keep building that wealth!
+                            </p>
+                        @else
+                            <!-- Case 4: Standard Insight -->
+                            <div class="h-16 w-16 mx-auto mb-6 flex items-center justify-center rounded-full bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-primary">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 0 0 1.5-.189m-1.5.189a6.01 6.01 0 0 1-1.5-.189m3.75 7.478a12.06 12.06 0 0 1-4.5 0m3.75 2.383a14.406 14.406 0 0 1-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 1 0-7.517 0c.85.493 1.509 1.333 1.509 2.316V18" />
+                                </svg>
+                            </div>
+                            <h3 class="text-2xl font-bold text-gray-900 dark:text-white">Smart Insights</h3>
+                            <p class="mt-4 text-gray-600 dark:text-gray-400">
+                                Your <span class="text-primary font-bold">{{ $topCategory?->name ?? 'None' }}</span> category is your top expense this month, totaling <span class="font-bold">RM {{ number_format($topCategory?->total ?? 0, 2) }}</span>.
+                            </p>
+                        @endif
+
+                        <div class="mt-8">
+                            <a href="{{ route('transactions') }}" class="font-bold text-primary hover:text-secondary transition underline">Analyze Transactions &rarr;</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Recent Transactions -->
             <div class="mt-20">
                 <div class="flex justify-between items-end mb-6">

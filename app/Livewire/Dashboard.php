@@ -19,10 +19,35 @@ class Dashboard extends Component
             ->take(5)
             ->get();
 
+        $monthStart = now()->startOfMonth();
+
+        // Monthly Totals
+        $monthlyIncome = Transaction::query()
+            ->join('categories', 'transactions.category_id', '=', 'categories.id')
+            ->where('categories.type', 'income')
+            ->where('transactions.date', '>=', $monthStart)
+            ->sum('transactions.amount');
+
+        $monthlyExpenses = abs(Transaction::query()
+            ->join('categories', 'transactions.category_id', '=', 'categories.id')
+            ->where('categories.type', 'expense')
+            ->where('transactions.date', '>=', $monthStart)
+            ->sum('transactions.amount'));
+
+        $spendingByCategory = Transaction::query()
+            ->join('categories', 'transactions.category_id', '=', 'categories.id')
+            ->where('categories.type', 'expense')
+            ->selectRaw('categories.name, ABS(SUM(transactions.amount)) as total')
+            ->groupBy('categories.name')
+            ->get();
+
         return view('livewire.dashboard', [
             'totalAssets' => $totalAssets,
             'totalDebt' => $totalDebt,
             'recentTransactions' => $recentTransactions,
+            'spendingByCategory' => $spendingByCategory,
+            'monthlyIncome' => $monthlyIncome,
+            'monthlyExpenses' => $monthlyExpenses,
         ])->layout('layouts.app', ['title' => 'Finance Tracker - Dashboard']);
     }
 }
