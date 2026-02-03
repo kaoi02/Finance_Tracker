@@ -44,6 +44,10 @@
                                 class="hover:text-primary block transition dark:hover:text-white md:px-4">
                                 <span>Main Page</span>
                             </a>
+                            <a href="{{ route('about') }}"
+                                class="hover:text-primary block transition dark:hover:text-white md:px-4">
+                                <span>About</span>
+                            </a>
                             <a href="{{ route('accounts') }}"
                                 class="hover:text-primary block transition dark:hover:text-white md:px-4">
                                 <span>Accounts</span>
