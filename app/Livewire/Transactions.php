@@ -15,6 +15,7 @@ class Transactions extends Component
     public $sortField = 'date';
     public $sortDirection = 'desc';
     public $perPage = 5;
+    public $accountFilter = '';
 
     public $showDeleteModal = false;
     public $idToDelete = null;
@@ -61,6 +62,11 @@ class Transactions extends Component
         $this->resetPage();
     }
 
+    public function updatedAccountFilter()
+    {
+        $this->resetPage();
+    }
+
     public function render()
     {
         $query = Transaction::query()
@@ -72,6 +78,9 @@ class Transactions extends Component
                 $q->where('transactions.description', 'like', '%' . $this->search . '%')
                     ->orWhere('categories.name', 'like', '%' . $this->search . '%')
                     ->orWhere('accounts.name', 'like', '%' . $this->search . '%');
+            })
+            ->when($this->accountFilter, function ($query) {
+                $query->where('transactions.account_id', $this->accountFilter);
             });
 
         if ($this->sortField === 'category') {

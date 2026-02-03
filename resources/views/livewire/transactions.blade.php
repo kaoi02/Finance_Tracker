@@ -72,15 +72,28 @@
                         class="w-full rounded-xl border border-gray-100 bg-gray-50 p-3 text-gray-600 outline-none focus:border-primary dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 transition">
                 </div>
 
-                <div class="flex items-center gap-2 shrink-0">
-                    <label class="text-sm text-gray-600 dark:text-gray-400">Show Items per Page</label>
-                    <select wire:model.live="perPage"
-                        class="rounded-xl border border-gray-100 bg-gray-50 py-2 pl-3 pr-8 text-sm text-gray-600 outline-none focus:border-primary dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 transition cursor-pointer">
-                        <option value="5">5</option>
-                        <option value="10">10</option>
-                        <option value="20">20</option>
-                        <option value="50">50</option>
-                    </select>
+                <div class="flex items-center gap-4 shrink-0">
+                    <div class="flex items-center gap-2">
+                        <label class="text-sm text-gray-600 dark:text-gray-400">Account</label>
+                        <select wire:model.live="accountFilter"
+                            class="rounded-xl border border-gray-100 bg-gray-50 py-2 pl-3 pr-8 text-sm text-gray-600 outline-none focus:border-primary dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 transition cursor-pointer">
+                            <option value="">All Accounts</option>
+                            @foreach($accounts as $account)
+                                <option value="{{ $account->id }}">{{ $account->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="flex items-center gap-2">
+                        <label class="text-sm text-gray-600 dark:text-gray-400">Show</label>
+                        <select wire:model.live="perPage"
+                            class="rounded-xl border border-gray-100 bg-gray-50 py-2 pl-3 pr-8 text-sm text-gray-600 outline-none focus:border-primary dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 transition cursor-pointer">
+                            <option value="5">5</option>
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="50">50</option>
+                        </select>
+                    </div>
                 </div>
             </div>
 
