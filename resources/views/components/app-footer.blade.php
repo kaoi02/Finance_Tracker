@@ -8,27 +8,30 @@
                         <li><a href="#" class="transition hover:text-primary">Home</a></li>
                         <li><a href="#" class="transition hover:text-primary">About</a></li>
                         <li><a href="#" class="transition hover:text-primary">Guide</a></li>
-                        <li><a href="#" class="transition hover:text-primary">Contact</a></li>
-                        <li><a href="#" class="transition hover:text-primary">Terms of Use</a></li>
+                        <!-- <li><a href="#" class="transition hover:text-primary">Contact</a></li> -->
+                        <!-- <li><a href="#" class="transition hover:text-primary">Terms of Use</a></li> -->
                     </ul>
 
                     <ul role="list" class="space-y-8">
                         <li>
-                            <a href="#" class="flex items-center space-x-3 transition hover:text-primary">
+                            <a href="https://github.com/kaoi02"
+                                class="flex items-center space-x-3 transition hover:text-primary" target="_blank">
                                 <span class="font-bold">GH</span>
                                 <span>Github</span>
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="flex items-center space-x-3 transition hover:text-primary">
-                                <span class="font-bold">TW</span>
-                                <span>Twitter</span>
+                            <a href="https://www.linkedin.com/in/khairul-faidz-shah-90442112b"
+                                class="flex items-center space-x-3 transition hover:text-primary" target="_blank">
+                                <span class="font-bold">LI</span>
+                                <span>LinkedIn</span>
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="flex items-center space-x-3 transition hover:text-primary">
-                                <span class="font-bold">YT</span>
-                                <span>YouTube</span>
+                            <a href="https://wa.me/+601123979022"
+                                class="flex items-center space-x-3 transition hover:text-primary" target="_blank">
+                                <span class="font-bold">WA</span>
+                                <span>WhatsApp</span>
                             </a>
                         </li>
                     </ul>
@@ -39,13 +42,15 @@
                     <span class="block text-gray-500 dark:text-gray-400">&copy; <span id="year">{{ date('Y') }}</span>
                         FinanceTracker</span>
 
-                    <span class="flex justify-between text-gray-600 dark:text-white">
-                        <a href="#" class="font-medium">Terms of Use </a>
-                        <a href="#" class="font-medium"> Privacy Policy</a>
+                    <span class="block text-xs text-gray-400 dark:text-gray-500 mt-6">
+                        UI inspired by <a href="https://www.tailawesome.com/resources/astrolus" target="_blank"
+                            class="hover:text-primary transition underline decoration-gray-300 dark:decoration-gray-700">Astrolus</a>
                     </span>
 
-                    <span class="block text-gray-500 dark:text-gray-400">Need help? <a href="#"
-                            class="font-semibold text-gray-600 dark:text-white"> Contact Us</a></span>
+                    <span class="block text-gray-500 dark:text-gray-400">Need help? <a
+                            href="https://wa.me/+601123979022" target="_blank"
+                            class="font-bold hover:text-primary transition font-semibold text-gray-600 dark:text-white">Contact
+                            Developer</a></span>
                 </div>
             </div>
         </div>

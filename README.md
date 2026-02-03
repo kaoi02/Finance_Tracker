@@ -71,6 +71,12 @@ The application leverages Livewire's `WithPagination` and `wire:model.live` to p
    php artisan serve
    ```
 
+## Credits
+
+- **UI Template:** [Astrolus](https://www.tailawesome.com/resources/astrolus) by TailAwesome (MIT License).
+- **Icons:** [Heroicons](https://heroicons.com/) and [Lucide](https://lucide.dev/).
+- **Fonts:** [Urbanist](https://fonts.google.com/specimen/Urbanist) via Google Fonts.
+
 ---
 
 *This project was developed as a showcase of modern full-stack PHP development, focusing on clean code, responsive design, and efficient database modeling.*
