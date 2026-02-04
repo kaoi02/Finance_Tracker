@@ -5,6 +5,7 @@ namespace App\Livewire;
 use Livewire\Component;
 use App\Models\Account;
 use App\Models\Transaction;
+use App\Models\Setting;
 
 class Dashboard extends Component
 {
@@ -48,6 +49,7 @@ class Dashboard extends Component
             'spendingByCategory' => $spendingByCategory,
             'monthlyIncome' => $monthlyIncome,
             'monthlyExpenses' => $monthlyExpenses,
+            'currency' => Setting::get('currency', 'RM'),
         ])->layout('layouts.app', ['title' => 'Finance Tracker - Dashboard']);
     }
 }

@@ -110,9 +110,8 @@
                     <div class="pt-4 border-t border-gray-100 dark:border-gray-700">
                         <span
                             class="text-3xl font-bold {{ $account->balance < 0 ? 'text-red-500' : 'text-gray-800 dark:text-white' }}">
-                            RM {{ number_format($account->balance, 2) }}
+                            {{ $currency }} {{ number_format($account->balance, 2) }}
                         </span>
-                        <span class="text-sm font-medium text-gray-500 dark:text-gray-400">MYR</span>
                     </div>
                 </div>
             </div>

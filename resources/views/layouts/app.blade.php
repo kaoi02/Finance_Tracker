@@ -1,5 +1,13 @@
+@php
+    $theme = \App\Models\Setting::get('theme', 'system');
+    $currency = \App\Models\Setting::get('currency', 'RM');
+@endphp
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" 
+      class="{{ $theme === 'dark' ? 'dark' : ($theme === 'light' ? '' : '') }}"
+      x-data="{ theme: '{{ $theme }}' }"
+      :class="{ 'dark': theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches) }"
+      @theme-updated.window="theme = $event.detail.theme">
 
 <head>
     <meta charset="utf-8">

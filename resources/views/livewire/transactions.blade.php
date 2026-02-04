@@ -67,9 +67,22 @@
         <div
             class="group relative bg-white dark:bg-gray-800 transition hover:z-[1] hover:shadow-2xl hover:shadow-gray-600/10 rounded-3xl border border-gray-100 dark:border-gray-700 overflow-hidden">
             <div class="p-6 flex items-center justify-between gap-4 mb-4">
-                <div class="md:w-72">
-                    <input wire:model.live.debounce.300ms="search" type="text" placeholder="Search transactions..."
-                        class="w-full rounded-xl border border-gray-100 bg-gray-50 p-3 text-gray-600 outline-none focus:border-primary dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 transition">
+                <div class="flex items-center gap-4 flex-1">
+                    <div class="relative flex-1 md:max-w-72">
+                        <input wire:model.live.debounce.300ms="search" type="text" placeholder="Search transactions..."
+                            class="w-full rounded-xl border border-gray-100 bg-gray-50 p-3 text-gray-600 outline-none focus:border-primary dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 transition">
+                    </div>
+                    <a href="{{ route('settings') }}" title="Data Management"
+                        class="flex items-center justify-center p-3 rounded-xl border border-gray-100 bg-gray-50 text-gray-400 hover:text-primary hover:border-primary/50 dark:border-gray-700 dark:bg-gray-900 transition shrink-0 group/tool">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            class="w-5 h-5 group-hover/tool:scale-110 transition duration-300" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                            <polyline points="7 10 12 15 17 10" />
+                            <line x1="12" x2="12" y1="15" y2="3" />
+                        </svg>
+                    </a>
                 </div>
 
                 <div class="flex items-center gap-4 shrink-0">
@@ -169,7 +182,7 @@
                                 </td>
                                 <td
                                     class="p-4 text-sm font-bold text-right {{ $transaction->amount < 0 ? 'text-red-500' : 'text-green-500' }}">
-                                    RM {{ number_format(abs($transaction->amount), 2) }}
+                                    {{ $currency }} {{ number_format(abs($transaction->amount), 2) }}
                                 </td>
                                 <td class="p-4 text-sm text-right">
                                     <button

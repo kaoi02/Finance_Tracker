@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use App\Models\Account;
+use App\Models\Setting;
 use Exception;
 
 class Accounts extends Component
@@ -29,7 +30,9 @@ class Accounts extends Component
     public function render()
     {
         $this->accounts = Account::all();
-        return view('livewire.accounts')->layout('layouts.app', ['title' => 'Finance Tracker - Accounts']);
+        return view('livewire.accounts', [
+            'currency' => Setting::get('currency', 'RM'),
+        ])->layout('layouts.app', ['title' => 'Finance Tracker - Accounts']);
     }
 
     public function store()

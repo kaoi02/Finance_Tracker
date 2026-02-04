@@ -64,6 +64,10 @@
                                 class="hover:text-primary block transition dark:hover:text-white md:px-4">
                                 <span>Transactions</span>
                             </a>
+                            <a href="{{ route('settings') }}"
+                                class="hover:text-primary block transition dark:hover:text-white md:px-4">
+                                <span>Settings</span>
+                            </a>
                         </div>
                     </div>
 

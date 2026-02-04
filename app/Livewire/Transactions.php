@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Models\Transaction;
 use App\Models\Account;
 use App\Models\Category;
+use App\Models\Setting;
 use Illuminate\Support\Facades\DB;
 use Exception;
 
@@ -99,6 +100,7 @@ class Transactions extends Component
             'transactions' => $transactions,
             'accounts' => Account::all(),
             'categories' => Category::all(),
+            'currency' => Setting::get('currency', 'RM'),
         ])->layout('layouts.app', ['title' => 'Finance Tracker - Transactions']);
     }
 
