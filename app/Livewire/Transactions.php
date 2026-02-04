@@ -19,8 +19,11 @@ class Transactions extends Component
     public $sortDirection = 'desc';
     public $perPage = 5;
     public $accountFilter = '';
+    public $selectedRows = [];
+    public $selectAll = false;
 
     public $showDeleteModal = false;
+    public $showBulkDeleteModal = false;
     public $idToDelete = null;
 
     public function confirmDelete()
@@ -30,6 +33,12 @@ class Transactions extends Component
             $this->idToDelete = null;
             $this->showDeleteModal = false;
         }
+    }
+
+    public function confirmBulkDelete()
+    {
+        $this->deleteSelected();
+        $this->showBulkDeleteModal = false;
     }
 
     // ... form properties ...
@@ -55,19 +64,50 @@ class Transactions extends Component
         $this->sortField = $field;
     }
 
-    public function updatedSearch()
-    {
-        $this->resetPage();
-    }
-
     public function updatedPerPage()
     {
         $this->resetPage();
+        $this->resetSelection();
     }
 
     public function updatedAccountFilter()
     {
         $this->resetPage();
+        $this->resetSelection();
+    }
+
+    public function updatedSearch()
+    {
+        $this->resetPage();
+        $this->resetSelection();
+    }
+
+    public function updatedSelectAll($value)
+    {
+        if ($value) {
+            $this->selectedRows = Transaction::query()
+                ->join('accounts', 'transactions.account_id', '=', 'accounts.id')
+                ->join('categories', 'transactions.category_id', '=', 'categories.id')
+                ->where(function ($q) {
+                    $q->where('transactions.description', 'like', '%' . $this->search . '%')
+                        ->orWhere('categories.name', 'like', '%' . $this->search . '%')
+                        ->orWhere('accounts.name', 'like', '%' . $this->search . '%');
+                })
+                ->when($this->accountFilter, function ($query) {
+                    $query->where('transactions.account_id', $this->accountFilter);
+                })
+                ->pluck('transactions.id')
+                ->map(fn($id) => (string) $id)
+                ->toArray();
+        } else {
+            $this->selectedRows = [];
+        }
+    }
+
+    public function resetSelection()
+    {
+        $this->selectedRows = [];
+        $this->selectAll = false;
     }
 
     public function render()
@@ -155,16 +195,48 @@ class Transactions extends Component
                 $transaction = Transaction::findOrFail($id);
                 $account = $transaction->account;
 
-                // Reverse balance update
-                $account->balance -= $transaction->amount;
-                $account->save();
+                // Reverse balance update if account exists
+                if ($account) {
+                    $account->balance -= $transaction->amount;
+                    $account->save();
+                }
 
                 $transaction->delete();
             });
 
             $this->dispatch('toast', message: 'Transaction deleted.', type: 'info');
+            $this->resetSelection();
         } catch (Exception $e) {
             $this->dispatch('toast', message: 'Failed to delete transaction.', type: 'error');
+        }
+    }
+
+    public function deleteSelected()
+    {
+        if (empty($this->selectedRows))
+            return;
+
+        try {
+            DB::transaction(function () {
+                $transactions = Transaction::whereIn('id', $this->selectedRows)->get();
+
+                foreach ($transactions as $transaction) {
+                    $account = $transaction->account;
+                    
+                    if ($account) {
+                        $account->balance -= $transaction->amount;
+                        $account->save();
+                    }
+                    
+                    $transaction->delete();
+                }
+            });
+
+            $count = count($this->selectedRows);
+            $this->resetSelection();
+            $this->dispatch('toast', message: "{$count} transactions deleted.", type: 'info');
+        } catch (Exception $e) {
+            $this->dispatch('toast', message: 'Failed to delete transactions.', type: 'error');
         }
     }
 }

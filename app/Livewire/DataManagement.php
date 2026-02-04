@@ -49,7 +49,10 @@ class DataManagement extends Component
 
     public function export()
     {
-        $transactions = Transaction::with(['account', 'category'])->get();
+        $transactions = Transaction::with([
+            'account' => fn($q) => $q->withTrashed(),
+            'category' => fn($q) => $q->withTrashed()
+        ])->get();
 
         $headers = [
             "Content-type" => "text/csv",
@@ -67,9 +70,9 @@ class DataManagement extends Component
 
             foreach ($transactions as $transaction) {
                 fputcsv($file, [
-                    $transaction->date->format('Y-m-d'),
+                    $transaction->date ? $transaction->date->format('Y-m-d') : '',
                     $transaction->description,
-                    $transaction->account->name,
+                    $transaction->account?->name ?? 'Deleted Account',
                     $transaction->category?->name ?? 'N/A',
                     abs($transaction->amount),
                     $transaction->category?->type ?? 'expense',
@@ -132,7 +135,7 @@ class DataManagement extends Component
                     continue;
                 }
 
-                [$date, $description, $accountName, $categoryName, $amount, $type] = $row;
+                [$date, $description, $accountName, $categoryName, $amount, $type] = array_map('trim', $row);
 
                 $account = Account::where('name', $accountName)->first();
                 if (!$account) {

@@ -86,6 +86,14 @@
                 </div>
 
                 <div class="flex items-center gap-4 shrink-0">
+                    @if(count($selectedRows) > 0)
+                        <button wire:click="$set('showBulkDeleteModal', true)"
+                            class="flex items-center gap-2 px-4 py-2 rounded-xl bg-red-500 text-white hover:bg-red-600 transition text-sm font-semibold shadow-lg shadow-red-500/20">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>
+                            Delete Selected ({{ count($selectedRows) }})
+                        </button>
+                    @endif
+
                     <div class="flex items-center gap-2">
                         <label class="text-sm text-gray-600 dark:text-gray-400">Account</label>
                         <select wire:model.live="accountFilter"
@@ -114,8 +122,12 @@
                 <table class="w-full text-left border-collapse">
                     <thead>
                         <tr>
+                            <th class="p-4 bg-gray-50 dark:bg-gray-900/50 rounded-l-xl">
+                                <input type="checkbox" wire:model.live="selectAll"
+                                    class="rounded border-gray-300 text-primary focus:ring-primary dark:border-gray-700 dark:bg-gray-900 transition cursor-pointer">
+                            </th>
                             <th wire:click="sortBy('date')"
-                                class="cursor-pointer p-4 bg-gray-50 dark:bg-gray-900/50 text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400 rounded-l-xl hover:text-primary transition group/header">
+                                class="cursor-pointer p-4 bg-gray-50 dark:bg-gray-900/50 text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400 hover:text-primary transition group/header">
                                 <div class="flex items-center gap-1">
                                     Date
                                     <span
@@ -165,7 +177,11 @@
                     </thead>
                     <tbody class="divide-y divide-gray-100 dark:divide-gray-700">
                         @foreach($transactions as $transaction)
-                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition">
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition {{ in_array((string)$transaction->id, $selectedRows) ? 'bg-primary/5 dark:bg-primary/10' : '' }}">
+                                <td class="p-4">
+                                    <input type="checkbox" wire:model.live="selectedRows" value="{{ $transaction->id }}"
+                                        class="rounded border-gray-300 text-primary focus:ring-primary dark:border-gray-700 dark:bg-gray-900 transition cursor-pointer">
+                                </td>
                                 <td class="p-4 text-sm text-gray-600 dark:text-gray-300">
                                     {{ $transaction->date->format('Y-m-d') }}
                                 </td>
@@ -178,7 +194,7 @@
                                         <span>{{ $transaction->category?->name ?? 'N/A' }}</span>
                                     </span>
                                 </td>
-                                <td class="p-4 text-sm text-gray-600 dark:text-gray-300">{{ $transaction->account->name }}
+                                <td class="p-4 text-sm text-gray-600 dark:text-gray-300">{{ $transaction->account?->name ?? 'Deleted Account' }}
                                 </td>
                                 <td
                                     class="p-4 text-sm font-bold text-right {{ $transaction->amount < 0 ? 'text-red-500' : 'text-green-500' }}">
@@ -203,4 +219,9 @@
     <!-- Confirm Delete Modal -->
     <x-confirm-modal wire:model="showDeleteModal" title="Delete Transaction"
         content="Are you sure you want to delete this transaction? This will also revert the account balance update." />
+
+    <!-- Confirm Bulk Delete Modal -->
+    <x-confirm-modal wire:model="showBulkDeleteModal" title="Delete Selected Transactions"
+        action="confirmBulkDelete"
+        content="Are you sure you want to delete {{ count($selectedRows) }} selected transactions? This will also revert all associated account balance updates." />
 </div>

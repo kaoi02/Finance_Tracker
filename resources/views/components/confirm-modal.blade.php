@@ -1,4 +1,4 @@
-@props(['id', 'title' => 'Delete Item', 'content' => 'Are you sure you want to delete this? This action cannot be undone.'])
+@props(['id', 'title' => 'Delete Item', 'content' => 'Are you sure you want to delete this? This action cannot be undone.', 'action' => 'confirmDelete'])
 
 <div x-data="{ show: @entangle($attributes->wire('model')) }" x-show="show" @keydown.escape.window="show = false"
     class="fixed inset-0 z-[110] overflow-y-auto" style="display: none;">
@@ -34,7 +34,7 @@
                 </div>
             </div>
             <div class="mt-8 sm:flex sm:flex-row-reverse sm:gap-3">
-                <button type="button" wire:click="confirmDelete"
+                <button type="button" wire:click="{{ $action }}"
                     class="inline-flex w-full justify-center rounded-2xl bg-red-600 px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-red-500 transition sm:w-auto">
                     Confirm Delete
                 </button>

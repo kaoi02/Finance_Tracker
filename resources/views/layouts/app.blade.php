@@ -3,11 +3,10 @@
     $currency = \App\Models\Setting::get('currency', 'RM');
 @endphp
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" 
-      class="{{ $theme === 'dark' ? 'dark' : ($theme === 'light' ? '' : '') }}"
-      x-data="{ theme: '{{ $theme }}' }"
-      :class="{ 'dark': theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches) }"
-      @theme-updated.window="theme = $event.detail.theme">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}"
+    class="{{ $theme === 'dark' ? 'dark' : ($theme === 'light' ? '' : '') }}" x-data="{ theme: '{{ $theme }}' }"
+    :class="{ 'dark': theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches) }"
+    @theme-updated.window="theme = $event.detail.theme">
 
 <head>
     <meta charset="utf-8">
@@ -45,7 +44,7 @@
 
     <x-app-header />
 
-    <main class="space-y-40 mb-40 pt-24 relative z-10">
+    <main class="space-y-40 mb-20 pt-24 relative z-10">
         <x-container>
             {{ $slot }}
         </x-container>
