@@ -9,7 +9,7 @@
     <div class="space-y-8">
         <!-- New Transaction Form (Card) -->
         <div
-            class="group relative bg-white dark:bg-gray-800 transition hover:z-[1] hover:shadow-2xl hover:shadow-gray-600/10 rounded-3xl border border-gray-100 dark:border-gray-700 p-8">
+            class="group relative bg-white dark:bg-gray-800 transition hover:z-[1] hover:shadow-2xl hover:shadow-gray-600/10 rounded-3xl border border-gray-100 shadow-sm dark:shadow-none dark:border-gray-700 p-8 lg:col-span-3">
             <h3 class="text-xl font-semibold text-gray-700 dark:text-white mb-6">Record Transaction</h3>
             <form wire:submit.prevent="store" class="grid grid-cols-1 md:grid-cols-6 gap-6 items-end">
                 <div>
@@ -63,9 +63,9 @@
             </div>
         </div>
 
-        <!-- Transactions List -->
+        <!-- Transactions Table Card -->
         <div
-            class="group relative bg-white dark:bg-gray-800 transition hover:z-[1] hover:shadow-2xl hover:shadow-gray-600/10 rounded-3xl border border-gray-100 dark:border-gray-700 overflow-hidden">
+            class="group relative bg-white dark:bg-gray-800 transition hover:z-[1] hover:shadow-2xl hover:shadow-gray-600/10 rounded-3xl border border-gray-100 shadow-sm dark:shadow-none dark:border-gray-700 overflow-hidden lg:col-span-3">
             <div class="p-6 flex items-center justify-between gap-4 mb-4">
                 <div class="flex items-center gap-4 flex-1">
                     <div class="relative flex-1 md:max-w-72">

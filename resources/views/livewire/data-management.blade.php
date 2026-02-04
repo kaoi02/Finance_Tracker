@@ -9,7 +9,7 @@
     <!-- App Preferences -->
     <div class="mb-8 grid grid-cols-1 md:grid-cols-2 gap-8">
         <!-- Theme Selection -->
-        <div class="group relative bg-white dark:bg-gray-800 transition hover:z-[1] hover:shadow-2xl hover:shadow-gray-600/10 rounded-3xl border border-gray-100 dark:border-gray-700 p-8">
+        <div class="group relative bg-white dark:bg-gray-800 transition hover:z-[1] hover:shadow-2xl hover:shadow-gray-600/10 rounded-3xl border border-gray-100 shadow-sm dark:shadow-none dark:border-gray-700 p-8">
             <div class="flex items-center gap-4 mb-6">
                 <div class="flex items-center justify-center h-12 w-12 rounded-2xl bg-purple-500/10 text-purple-500">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
@@ -30,7 +30,7 @@
         </div>
 
         <!-- Currency Selection -->
-        <div class="group relative bg-white dark:bg-gray-800 transition hover:z-[1] hover:shadow-2xl hover:shadow-gray-600/10 rounded-3xl border border-gray-100 dark:border-gray-700 p-8">
+        <div class="group relative bg-white dark:bg-gray-800 transition hover:z-[1] hover:shadow-2xl hover:shadow-gray-600/10 rounded-3xl border border-gray-100 shadow-sm dark:shadow-none dark:border-gray-700 p-8">
             <div class="flex items-center gap-4 mb-6">
                 <div class="flex items-center justify-center h-12 w-12 rounded-2xl bg-amber-500/10 text-amber-500">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" x2="12" y1="2" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
@@ -55,7 +55,7 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         <!-- Export Card -->
         <div
-            class="group relative bg-white dark:bg-gray-800 transition hover:z-[1] hover:shadow-2xl hover:shadow-gray-600/10 rounded-3xl border border-gray-100 dark:border-gray-700 p-8">
+            class="group relative bg-white dark:bg-gray-800 transition hover:z-[1] hover:shadow-2xl hover:shadow-gray-600/10 rounded-3xl border border-gray-100 shadow-sm dark:shadow-none dark:border-gray-700 p-8">
             <div class="flex items-center gap-4 mb-6">
                 <div class="flex items-center justify-center h-12 w-12 rounded-2xl bg-blue-500/10 text-blue-500">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none"
@@ -79,7 +79,7 @@
 
         <!-- Import Card -->
         <div
-            class="group relative bg-white dark:bg-gray-800 transition hover:z-[1] hover:shadow-2xl hover:shadow-gray-600/10 rounded-3xl border border-gray-100 dark:border-gray-700 p-8">
+            class="group relative bg-white dark:bg-gray-800 transition hover:z-[1] hover:shadow-2xl hover:shadow-gray-600/10 rounded-3xl border border-gray-100 shadow-sm dark:shadow-none dark:border-gray-700 p-8">
             <div class="flex items-center gap-4 mb-6">
                 <div class="flex items-center justify-center h-12 w-12 rounded-2xl bg-green-500/10 text-green-500">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none"
@@ -135,7 +135,7 @@
 
     @if($importResults)
         <div
-            class="mt-12 group relative bg-white dark:bg-gray-800 transition hover:z-[1] hover:shadow-2xl hover:shadow-gray-600/10 rounded-3xl border border-gray-100 dark:border-gray-700 p-8">
+            class="mt-12 group relative bg-white dark:bg-gray-800 transition hover:z-[1] hover:shadow-2xl hover:shadow-gray-600/10 rounded-3xl border border-gray-100 shadow-sm dark:shadow-none dark:border-gray-700 p-8">
             <h3 class="text-xl font-semibold text-gray-700 dark:text-white mb-6">Import Results</h3>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">

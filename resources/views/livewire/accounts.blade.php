@@ -9,7 +9,7 @@
     <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
         <!-- New Account Form (Card) -->
         <div
-            class="group relative bg-white dark:bg-gray-800 transition hover:z-[1] hover:shadow-2xl hover:shadow-gray-600/10 rounded-3xl border border-gray-100 dark:border-gray-700 p-8 lg:col-span-3">
+            class="group relative bg-white dark:bg-gray-800 transition hover:z-[1] hover:shadow-2xl hover:shadow-gray-600/10 rounded-3xl border border-gray-100 shadow-sm dark:shadow-none dark:border-gray-700 p-8 lg:col-span-3">
             <div class="w-full">
                 <h3 class="text-xl font-semibold text-gray-700 dark:text-white mb-6 text-center">Add New Account</h3>
                 <form wire:submit.prevent="store" class="grid grid-cols-1 md:grid-cols-2 gap-6 items-end">
@@ -61,7 +61,7 @@
         <!-- Account Cards -->
         @foreach($accounts as $account)
             <div
-                class="group relative bg-white dark:bg-gray-800 transition hover:z-[1] hover:shadow-2xl hover:shadow-gray-600/10 rounded-3xl border border-gray-100 dark:border-gray-700 p-8">
+                class="group relative bg-white dark:bg-gray-800 transition hover:z-[1] hover:shadow-2xl hover:shadow-gray-600/10 rounded-3xl border border-gray-100 shadow-sm dark:shadow-none dark:border-gray-700 p-8">
                 <div class="relative space-y-8">
                     <div class="flex justify-between items-start">
                         <!-- Icon based on type -->

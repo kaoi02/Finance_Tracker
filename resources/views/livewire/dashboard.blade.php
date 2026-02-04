@@ -19,7 +19,7 @@
                 <div class="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 md:gap-8">
                     <!-- Total Assets -->
                     <div
-                        class="group relative bg-white dark:bg-gray-800 transition hover:z-[1] hover:shadow-2xl hover:shadow-gray-600/10 rounded-3xl border border-gray-100 dark:border-gray-700 p-8">
+                        class="group relative bg-white dark:bg-gray-800 transition hover:z-[1] hover:shadow-2xl hover:shadow-gray-600/10 rounded-3xl border border-gray-100 shadow-sm dark:shadow-none dark:border-gray-700 p-8">
                         <div class="space-y-4 text-center">
                             <h3 class="text-lg font-medium text-gray-600 dark:text-gray-300">Total Assets</h3>
                             <p class="text-4xl font-bold text-green-600 dark:text-green-400">
@@ -34,7 +34,7 @@
 
                     <!-- Total Debt -->
                     <div
-                        class="group relative bg-white dark:bg-gray-800 transition hover:z-[1] hover:shadow-2xl hover:shadow-gray-600/10 rounded-3xl border border-gray-100 dark:border-gray-700 p-8">
+                        class="group relative bg-white dark:bg-gray-800 transition hover:z-[1] hover:shadow-2xl hover:shadow-gray-600/10 rounded-3xl border border-gray-100 shadow-sm dark:shadow-none dark:border-gray-700 p-8">
                         <div class="space-y-4 text-center">
                             <h3 class="text-lg font-medium text-gray-600 dark:text-gray-300">Total Debt</h3>
                             <p class="text-4xl font-bold text-red-600 dark:text-red-400">
@@ -51,7 +51,7 @@
             <!-- Insights Section -->
             <div class="mt-20 grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
                 <!-- Spending Breakdown Chart -->
-                <div class="group relative bg-white dark:bg-gray-800 transition hover:z-[1] hover:shadow-2xl hover:shadow-gray-600/10 rounded-3xl border border-gray-100 dark:border-gray-700 p-8"
+                <div class="group relative bg-white dark:bg-gray-800 transition hover:z-[1] hover:shadow-2xl hover:shadow-gray-600/10 rounded-3xl border border-gray-100 shadow-sm dark:shadow-none dark:border-gray-700 p-8"
                     x-init="
                         new ApexCharts($refs.chart, {
                             series: {{ json_encode($spendingByCategory->pluck('total')->map(fn($v) => (float) $v)) }},
@@ -115,7 +115,7 @@
 
                 <!-- Account Summary / Tip -->
                 <div
-                    class="group relative bg-white dark:bg-gray-800 transition hover:z-[1] hover:shadow-2xl hover:shadow-gray-600/10 rounded-3xl border border-gray-100 dark:border-gray-700 p-8 h-full flex flex-col justify-center text-center">
+                    class="group relative bg-white dark:bg-gray-800 transition hover:z-[1] hover:shadow-2xl hover:shadow-gray-600/10 rounded-3xl border border-gray-100 shadow-sm dark:shadow-none dark:border-gray-700 p-8 h-full flex flex-col justify-center text-center">
                     <div class="lg:w-2/3 mx-auto">
                         @php
                             $savings = $monthlyIncome - $monthlyExpenses;
@@ -205,7 +205,7 @@
                 </div>
 
                 <div
-                    class="group relative bg-white dark:bg-gray-800 transition hover:z-[1] hover:shadow-2xl hover:shadow-gray-600/10 rounded-3xl border border-gray-100 dark:border-gray-700 overflow-hidden">
+                    class="group relative bg-white dark:bg-gray-800 transition hover:z-[1] hover:shadow-2xl hover:shadow-gray-600/10 rounded-3xl border border-gray-100 shadow-sm dark:shadow-none dark:border-gray-700 overflow-hidden">
                     <div class="p-6 overflow-x-auto">
                         <table class="w-full text-left border-collapse">
                             <thead>
