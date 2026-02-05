@@ -60,7 +60,7 @@ The application leverages Livewire's `WithPagination` and `wire:model.live` to p
 4. **Database Setup:**
    ```bash
    # Configure your DB in .env then run:
-   php artisan migrate --seed
+   php artisan migrate
    ```
 5. **Compile Assets:**
    ```bash
